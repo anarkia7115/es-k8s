@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: es-single-node
+spec:
+  volumes:
+  - name: es-data
+    emptyDir: {}
+  containers:
+  - name: es01
+    securityContext:
+      privileged: true
+      runAsUser: 1000
+      capabilities:
+        add:
+        - IPC_LOCK
+        - SYS_RESOURCE
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.0
+    volumeMounts:
+    - name: es-data
+      mountPath: /usr/share/elasticsearch/data
